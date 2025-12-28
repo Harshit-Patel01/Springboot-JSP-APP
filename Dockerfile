@@ -11,7 +11,7 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 # Runtime stage
-FROM tomcat:9.0-jre17-openjdk-slim
+FROM tomcat:9.0
 
 # Remove default Tomcat webapps
 RUN rm -rf /usr/local/tomcat/webapps/*
@@ -24,4 +24,3 @@ EXPOSE 8080
 
 # Start Tomcat
 CMD ["catalina.sh", "run"]
-
