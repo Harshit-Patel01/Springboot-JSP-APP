@@ -33,11 +33,25 @@ http://localhost:8080/products
 
 ## Docker Deployment
 
-The project includes Docker support:
+The project includes Docker support with MySQL database:
 
 ```bash
+# Build and start containers
 docker-compose up -d
+
+# View logs
+docker-compose logs -f
+
+# Stop containers
+docker-compose down
+
+# Stop and remove volumes (clean slate)
+docker-compose down -v
 ```
+
+The application will be available at:
+- Application: http://localhost:8080
+- MySQL: localhost:3306
 
 ## Project Structure
 

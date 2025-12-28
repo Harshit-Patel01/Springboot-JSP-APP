@@ -41,8 +41,6 @@ services:
         condition: service_healthy
     networks:
       - product-network
-    volumes:
-      - ./src/main/java/com/example/util/DatabaseUtil.java:/tmp/DatabaseUtil.java:ro
 
 volumes:
   mysql_data:
