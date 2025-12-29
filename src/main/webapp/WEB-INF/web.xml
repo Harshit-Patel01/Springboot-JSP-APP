@@ -5,7 +5,7 @@
          http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
 
-    <display-name>Product CRUD Application</display-name>
+    <display-name>Teacher CRUD Application</display-name>
 
 
     <welcome-file-list>

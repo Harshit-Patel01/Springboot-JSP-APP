@@ -1,7 +1,7 @@
 package com.example.servlet;
 
-import com.example.dao.ProductDAO;
-import com.example.model.Product;
+import com.example.dao.TeacherDAO;
+import com.example.model.Teacher;
 import com.google.gson.Gson;
 
 import javax.servlet.ServletException;
@@ -18,19 +18,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet("/products/*")
-public class ProductServlet extends HttpServlet {
-    private ProductDAO productDAO;
+@WebServlet("/teachers/*")
+public class TeacherServlet extends HttpServlet {
+    private TeacherDAO teacherDAO;
     private Gson gson;
 
     @Override
     public void init() throws ServletException {
         super.init();
-        productDAO = new ProductDAO();
+        teacherDAO = new TeacherDAO();
         gson = new Gson();
 
         // Initialize database on startup
-        productDAO.initializeDatabase();
+        teacherDAO.initializeDatabase();
     }
 
     @Override
@@ -39,27 +39,27 @@ public class ProductServlet extends HttpServlet {
         String pathInfo = request.getPathInfo();
 
         if (pathInfo == null || pathInfo.equals("/")) {
-            // List all products
-            List<Product> products = productDAO.getAllProducts();
-            request.setAttribute("products", products);
-            request.getRequestDispatcher("/products.jsp").forward(request, response);
+            // List all teachers
+            List<Teacher> teachers = teacherDAO.getAllTeachers();
+            request.setAttribute("teachers", teachers);
+            request.getRequestDispatcher("/teachers.jsp").forward(request, response);
         } else {
-            // Get single product by ID
+            // Get single teacher by ID
             try {
                 int id = Integer.parseInt(pathInfo.substring(1));
-                Product product = productDAO.getProductById(id);
+                Teacher teacher = teacherDAO.getTeacherById(id);
 
-                if (product != null) {
+                if (teacher != null) {
                     response.setContentType("application/json");
                     response.setCharacterEncoding("UTF-8");
                     PrintWriter out = response.getWriter();
-                    out.print(gson.toJson(product));
+                    out.print(gson.toJson(teacher));
                     out.flush();
                 } else {
-                    response.sendError(HttpServletResponse.SC_NOT_FOUND, "Product not found");
+                    response.sendError(HttpServletResponse.SC_NOT_FOUND, "Teacher not found");
                 }
             } catch (NumberFormatException e) {
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid product ID");
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid teacher ID");
             }
         }
     }
@@ -68,32 +68,27 @@ public class ProductServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String name = request.getParameter("name");
-        String priceStr = request.getParameter("price");
+        String subject = request.getParameter("subject");
 
-        if (name == null || name.trim().isEmpty() || priceStr == null || priceStr.trim().isEmpty()) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Name and price are required");
+        if (name == null || name.trim().isEmpty() || subject == null || subject.trim().isEmpty()) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Name and subject are required");
             return;
         }
 
-        try {
-            double price = Double.parseDouble(priceStr);
-            Product product = new Product();
-            product.setName(name);
-            product.setPrice(price);
+        Teacher teacher = new Teacher();
+        teacher.setName(name);
+        teacher.setSubject(subject);
 
-            boolean success = productDAO.createProduct(product);
+        boolean success = teacherDAO.createTeacher(teacher);
 
-            if (success) {
-                response.setContentType("application/json");
-                response.setCharacterEncoding("UTF-8");
-                PrintWriter out = response.getWriter();
-                out.print(gson.toJson(product));
-                out.flush();
-            } else {
-                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Failed to create product");
-            }
-        } catch (NumberFormatException e) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid price format");
+        if (success) {
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            PrintWriter out = response.getWriter();
+            out.print(gson.toJson(teacher));
+            out.flush();
+        } else {
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Failed to create teacher");
         }
     }
 
@@ -103,7 +98,7 @@ public class ProductServlet extends HttpServlet {
         String pathInfo = request.getPathInfo();
 
         if (pathInfo == null || pathInfo.equals("/")) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Product ID is required");
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Teacher ID is required");
             return;
         }
 
@@ -113,32 +108,31 @@ public class ProductServlet extends HttpServlet {
             // Parse form-urlencoded body for PUT request
             Map<String, String> params = parseFormData(request);
             String name = params.get("name");
-            String priceStr = params.get("price");
+            String subject = params.get("subject");
 
-            if (name == null || name.trim().isEmpty() || priceStr == null || priceStr.trim().isEmpty()) {
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Name and price are required");
+            if (name == null || name.trim().isEmpty() || subject == null || subject.trim().isEmpty()) {
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Name and subject are required");
                 return;
             }
 
-            double price = Double.parseDouble(priceStr);
-            Product product = new Product();
-            product.setId(id);
-            product.setName(name);
-            product.setPrice(price);
+            Teacher teacher = new Teacher();
+            teacher.setId(id);
+            teacher.setName(name);
+            teacher.setSubject(subject);
 
-            boolean success = productDAO.updateProduct(product);
+            boolean success = teacherDAO.updateTeacher(teacher);
 
             if (success) {
                 response.setContentType("application/json");
                 response.setCharacterEncoding("UTF-8");
                 PrintWriter out = response.getWriter();
-                out.print(gson.toJson(product));
+                out.print(gson.toJson(teacher));
                 out.flush();
             } else {
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Product not found");
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Teacher not found");
             }
         } catch (NumberFormatException e) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid product ID or price format");
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid teacher ID");
         }
     }
     
@@ -175,22 +169,21 @@ public class ProductServlet extends HttpServlet {
         String pathInfo = request.getPathInfo();
 
         if (pathInfo == null || pathInfo.equals("/")) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Product ID is required");
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Teacher ID is required");
             return;
         }
 
         try {
             int id = Integer.parseInt(pathInfo.substring(1));
-            boolean success = productDAO.deleteProduct(id);
+            boolean success = teacherDAO.deleteTeacher(id);
 
             if (success) {
                 response.setStatus(HttpServletResponse.SC_NO_CONTENT);
             } else {
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Product not found");
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Teacher not found");
             }
         } catch (NumberFormatException e) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid product ID");
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid teacher ID");
         }
     }
 }
-

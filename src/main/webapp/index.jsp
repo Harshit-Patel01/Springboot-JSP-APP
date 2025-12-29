@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Product Management System</title>
+    <title>Teacher Management System</title>
     <style>
         * {
             margin: 0;
@@ -127,19 +127,19 @@
 <body>
     <header>
         <nav>
-            <div class="logo">Product Management</div>
+            <div class="logo">Teacher Management</div>
             <div class="nav-links">
                 <a href="/">Home</a>
-                <a href="/products">Products</a>
+                <a href="/teachers">Teachers</a>
             </div>
         </nav>
     </header>
 
     <div class="container">
         <div class="welcome-card">
-            <h1>Welcome to Product Management System</h1>
-            <p>Manage your products with ease. Create, update, and delete products with a simple and intuitive interface.</p>
-            <a href="/products" class="btn">View Products</a>
+            <h1>Welcome to Teacher Management System</h1>
+            <p>Manage your teachers with ease. Create, update, and delete teachers with a simple and intuitive interface.</p>
+            <a href="/teachers" class="btn">View Teachers</a>
         </div>
     </div>
 </body>

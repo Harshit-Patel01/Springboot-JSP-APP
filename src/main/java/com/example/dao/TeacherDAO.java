@@ -1,46 +1,46 @@
 package com.example.dao;
 
-import com.example.model.Product;
+import com.example.model.Teacher;
 import com.example.util.DatabaseUtil;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductDAO {
-    public List<Product> getAllProducts() {
-        List<Product> products = new ArrayList<>();
-        String sql = "SELECT id, name, price FROM products";
+public class TeacherDAO {
+    public List<Teacher> getAllTeachers() {
+        List<Teacher> teachers = new ArrayList<>();
+        String sql = "SELECT id, name, subject FROM teachers";
         try (Connection conn = DatabaseUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-                Product product = new Product();
-                product.setId(rs.getInt("id"));
-                product.setName(rs.getString("name"));
-                product.setPrice(rs.getDouble("price"));
-                products.add(product);
+                Teacher teacher = new Teacher();
+                teacher.setId(rs.getInt("id"));
+                teacher.setName(rs.getString("name"));
+                teacher.setSubject(rs.getString("subject"));
+                teachers.add(teacher);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return products;
+        return teachers;
     }
 
-    public Product getProductById(int id) {
-        String sql = "SELECT id, name, price FROM products WHERE id = ?";
+    public Teacher getTeacherById(int id) {
+        String sql = "SELECT id, name, subject FROM teachers WHERE id = ?";
         try (Connection conn = DatabaseUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, id);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    Product product = new Product();
-                    product.setId(rs.getInt("id"));
-                    product.setName(rs.getString("name"));
-                    product.setPrice(rs.getDouble("price"));
-                    return product;
+                    Teacher teacher = new Teacher();
+                    teacher.setId(rs.getInt("id"));
+                    teacher.setName(rs.getString("name"));
+                    teacher.setSubject(rs.getString("subject"));
+                    return teacher;
                 }
             }
         } catch (SQLException e) {
@@ -49,13 +49,13 @@ public class ProductDAO {
         return null;
     }
 
-    public boolean createProduct(Product product) {
-        String sql = "INSERT INTO products (name, price) VALUES (?, ?)";
+    public boolean createTeacher(Teacher teacher) {
+        String sql = "INSERT INTO teachers (name, subject) VALUES (?, ?)";
         try (Connection conn = DatabaseUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
-            stmt.setString(1, product.getName());
-            stmt.setDouble(2, product.getPrice());
+            stmt.setString(1, teacher.getName());
+            stmt.setString(2, teacher.getSubject());
             int affectedRows = stmt.executeUpdate();
 
             if (affectedRows == 0) {
@@ -64,7 +64,7 @@ public class ProductDAO {
 
             try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
-                    product.setId(generatedKeys.getInt(1));
+                    teacher.setId(generatedKeys.getInt(1));
                 }
             }
             return true;
@@ -74,14 +74,14 @@ public class ProductDAO {
         }
     }
 
-    public boolean updateProduct(Product product) {
-        String sql = "UPDATE products SET name = ?, price = ? WHERE id = ?";
+    public boolean updateTeacher(Teacher teacher) {
+        String sql = "UPDATE teachers SET name = ?, subject = ? WHERE id = ?";
         try (Connection conn = DatabaseUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setString(1, product.getName());
-            stmt.setDouble(2, product.getPrice());
-            stmt.setInt(3, product.getId());
+            stmt.setString(1, teacher.getName());
+            stmt.setString(2, teacher.getSubject());
+            stmt.setInt(3, teacher.getId());
 
             int affectedRows = stmt.executeUpdate();
             return affectedRows > 0;
@@ -91,8 +91,8 @@ public class ProductDAO {
         }
     }
 
-    public boolean deleteProduct(int id) {
-        String sql = "DELETE FROM products WHERE id = ?";
+    public boolean deleteTeacher(int id) {
+        String sql = "DELETE FROM teachers WHERE id = ?";
         try (Connection conn = DatabaseUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
@@ -106,10 +106,10 @@ public class ProductDAO {
     }
 
     public void initializeDatabase() {
-        String createTableSQL = "CREATE TABLE IF NOT EXISTS products (" +
+        String createTableSQL = "CREATE TABLE IF NOT EXISTS teachers (" +
                 "id INT AUTO_INCREMENT PRIMARY KEY, " +
                 "name VARCHAR(255) NOT NULL, " +
-                "price DECIMAL(10,2) NOT NULL" +
+                "subject VARCHAR(255) NOT NULL" +
                 ")";
 
         try (Connection conn = DatabaseUtil.getConnection();

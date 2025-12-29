@@ -2,12 +2,12 @@ services:
   # MySQL Database
   mysql:
     image: mysql:8.0
-    container_name: product-mysql
+    container_name: teacher-mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: productdb
-      MYSQL_USER: productuser
-      MYSQL_PASSWORD: productpass
+      MYSQL_DATABASE: teacherdb
+      MYSQL_USER: teacheruser
+      MYSQL_PASSWORD: teacherpass
     ports:
       - "3306:3306"
     volumes:
@@ -18,32 +18,32 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - product-network
+      - teacher-network
 
   # Tomcat Application Server
   tomcat:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: product-tomcat
+    container_name: teacher-tomcat
     ports:
       - "8080:8080"
     environment:
       - MYSQL_HOST=mysql
       - MYSQL_PORT=3306
-      - MYSQL_DATABASE=productdb
+      - MYSQL_DATABASE=teacherdb
       - MYSQL_USER=root
       - MYSQL_PASSWORD=root
     depends_on:
       mysql:
         condition: service_healthy
     networks:
-      - product-network
+      - teacher-network
 
 volumes:
   mysql_data:
 
 networks:
-  product-network:
+  teacher-network:
     driver: bridge
 

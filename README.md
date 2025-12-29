@@ -1,6 +1,6 @@
-# Product Management System
+# Teacher Management System
 
-A Java JSP-based web application for managing products with CRUD operations.
+A Java JSP-based web application for managing teachers with CRUD operations.
 
 ## Setup Instructions
 
@@ -9,7 +9,7 @@ A Java JSP-based web application for managing products with CRUD operations.
 Create a MySQL database:
 
 ```sql
-CREATE DATABASE productdb;
+CREATE DATABASE teacherdb;
 ```
 
 Update database credentials in `src/main/java/com/example/util/DatabaseUtil.java`
@@ -22,13 +22,13 @@ mvn clean package
 
 ### 3. Deploy to Tomcat
 
-Copy the generated `target/product-crud.war` file to your Tomcat `webapps` directory.
+Copy the generated `target/teacher-crud.war` file to your Tomcat `webapps` directory.
 
 ### 4. Run the Application
 
 Start Tomcat and navigate to:
 ```
-http://localhost:8080/products
+http://localhost:8080/teachers
 ```
 
 ## Docker Deployment
@@ -66,21 +66,19 @@ src/
 │   │       └── util/         # Utility classes
 │   └── webapp/
 │       ├── index.jsp         # Home page
-│       ├── products.jsp      # Products management page
+│       ├── teachers.jsp      # Teachers management page
 │       └── WEB-INF/
 │           └── web.xml       # Web configuration
 ```
 
 ## API Endpoints
 
-- `GET /products` - List all products
-- `GET /products/{id}` - Get product by ID
-- `POST /products` - Create new product
-- `PUT /products/{id}` - Update product
-- `DELETE /products/{id}` - Delete product
+- `GET /teachers` - List all teachers
+- `GET /teachers/{id}` - Get teacher by ID
+- `POST /teachers` - Create new teacher
+- `PUT /teachers/{id}` - Update teacher
+- `DELETE /teachers/{id}` - Delete teacher
 
 ## License
 
 MIT License
-
-

@@ -1,17 +1,17 @@
 package com.example.model;
 
-public class Product {
+public class Teacher {
     private int id;
     private String name;
-    private double price;
+    private String subject;
 
-    public Product() {
+    public Teacher() {
     }
 
-    public Product(int id, String name, double price) {
+    public Teacher(int id, String name, String subject) {
         this.id = id;
         this.name = name;
-        this.price = price;
+        this.subject = subject;
     }
 
     public int getId() {
@@ -30,12 +30,12 @@ public class Product {
         this.name = name;
     }
 
-    public double getPrice() {
-        return price;
+    public String getSubject() {
+        return subject;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
 }
 

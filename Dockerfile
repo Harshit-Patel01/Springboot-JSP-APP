@@ -17,7 +17,7 @@ FROM tomcat:9.0
 RUN rm -rf /usr/local/tomcat/webapps/*
 
 # Copy WAR file from build stage
-COPY --from=build /app/target/product-crud.war /usr/local/tomcat/webapps/ROOT.war
+COPY --from=build /app/target/teacher-crud.war /usr/local/tomcat/webapps/ROOT.war
 
 # Expose Tomcat port
 EXPOSE 8080

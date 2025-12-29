@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Product Management</title>
+    <title>Teacher Management</title>
     <style>
         * {
             margin: 0;
@@ -57,9 +57,18 @@
             background-color: #e9e9e9;
         }
 
+        .main-container {
+            flex: 1;
+            width: 100%;
+            padding: 20px 40px;
+            max-width: 100%;
+        }
+
         h1 {
             color: #333;
+            margin-top: 20px;
             margin-bottom: 20px;
+            font-size: 2rem;
         }
 
         table {
@@ -113,20 +122,18 @@
             color: #555;
         }
 
-        input[type="text"],
-        input[type="number"] {
+        input[type="text"] {
             padding: 10px;
             margin-bottom: 15px;
             width: 100%;
-            max-width: 300px;
+            max-width: 400px;
             border: 1px solid #ddd;
             border-radius: 4px;
             font-size: 14px;
             box-sizing: border-box;
         }
 
-        input[type="text"]:focus,
-        input[type="number"]:focus {
+        input[type="text"]:focus {
             outline: none;
             border-color: #333;
             box-shadow: 0 0 0 2px rgba(51, 51, 51, 0.1);
@@ -223,15 +230,85 @@
             color: #333;
         }
 
+        /* Responsive Design */
+        @media (min-width: 1400px) {
+            .main-container {
+                padding: 30px 60px;
+            }
+            
+            h1 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (min-width: 1920px) {
+            .main-container {
+                padding: 40px 80px;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .main-container {
+                padding: 20px 30px;
+            }
+        }
+
         @media (max-width: 768px) {
+            .main-container {
+                padding: 15px 20px;
+            }
+
             .modal-content {
                 width: 90%;
                 margin: 20px auto;
             }
 
-            input[type="text"],
-            input[type="number"] {
-                width: 100%;
+            input[type="text"] {
+                max-width: 100%;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            table {
+                font-size: 14px;
+            }
+
+            th, td {
+                padding: 8px;
+            }
+
+            .action-btn {
+                padding: 6px 10px;
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-container {
+                padding: 10px 15px;
+            }
+
+            header {
+                padding: 1rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .nav-links a {
+                padding: 0.5rem 0.75rem;
+                font-size: 14px;
+            }
+
+            table {
+                font-size: 12px;
+            }
+
+            th, td {
+                padding: 6px;
             }
         }
     </style>
@@ -239,72 +316,72 @@
 <body>
     <header>
         <nav>
-            <div class="logo">Product Management</div>
+            <div class="logo">Teacher Management</div>
             <div class="nav-links">
                 <a href="/">Home</a>
-                <a href="/products">Products</a>
+                <a href="/teachers">Teachers</a>
             </div>
         </nav>
     </header>
 
-    <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
-        <h1 style="margin-top: 20px; margin-bottom: 20px;">Product Management</h1>
+    <div class="main-container">
+        <h1>Teacher Management</h1>
 
-        <!-- Add Product Form -->
-        <form id="addProductForm">
-            <h2>Add New Product</h2>
+        <!-- Add Teacher Form -->
+        <form id="addTeacherForm">
+            <h2>Add New Teacher</h2>
             <div>
                 <label for="name">Name:</label>
                 <input type="text" id="name" name="name" required>
             </div>
             <div>
-                <label for="price">Price:</label>
-                <input type="number" id="price" name="price" step="0.01" required>
+                <label for="subject">Subject:</label>
+                <input type="text" id="subject" name="subject" required>
             </div>
-            <button type="submit">Add Product</button>
+            <button type="submit">Add Teacher</button>
             <div id="error" class="error"></div>
         </form>
 
-        <!-- Product List -->
-        <h2>Product List</h2>
+        <!-- Teacher List -->
+        <h2>Teacher List</h2>
         <table>
             <thead>
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
-                    <th>Price</th>
+                    <th>Subject</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <c:forEach items="${products}" var="product">
-                    <tr id="product-${product.id}">
-                        <td>${product.id}</td>
-                        <td>${product.name}</td>
-                        <td>₹${product.price}</td>
+                <c:forEach items="${teachers}" var="teacher">
+                    <tr id="teacher-${teacher.id}">
+                        <td>${teacher.id}</td>
+                        <td>${teacher.name}</td>
+                        <td>${teacher.subject}</td>
                         <td>
-                            <button class="action-btn edit-btn" onclick="editProduct(${product.id})">Edit</button>
-                            <button class="action-btn delete-btn" onclick="deleteProduct(${product.id})">Delete</button>
+                            <button class="action-btn edit-btn" onclick="editTeacher(${teacher.id})">Edit</button>
+                            <button class="action-btn delete-btn" onclick="deleteTeacher(${teacher.id})">Delete</button>
                         </td>
                     </tr>
                 </c:forEach>
             </tbody>
         </table>
 
-        <!-- Edit Product Modal -->
+        <!-- Edit Teacher Modal -->
         <div id="editModal" class="modal">
             <div class="modal-content">
                 <button type="button" class="close-btn" onclick="closeEditModal()">×</button>
-                <h2>Edit Product</h2>
-                <form id="editProductForm">
+                <h2>Edit Teacher</h2>
+                <form id="editTeacherForm">
                     <input type="hidden" id="editId" name="id">
                     <div>
                         <label for="editName">Name:</label>
                         <input type="text" id="editName" name="name" required>
                     </div>
                     <div>
-                        <label for="editPrice">Price:</label>
-                        <input type="number" id="editPrice" name="price" step="0.01" required>
+                        <label for="editSubject">Subject:</label>
+                        <input type="text" id="editSubject" name="subject" required>
                     </div>
                     <div style="margin-top: 20px; display: flex; gap: 10px;">
                         <button type="submit" style="flex: 1;">Save Changes</button>
@@ -316,31 +393,26 @@
     </div>
 
     <script>
-        // Add Product
-        document.getElementById('addProductForm').addEventListener('submit', function(e) {
+        // Add Teacher
+        document.getElementById('addTeacherForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
             const name = document.getElementById('name').value.trim();
-            const price = document.getElementById('price').value.trim();
+            const subject = document.getElementById('subject').value.trim();
             const errorElement = document.getElementById('error');
 
             // Client-side validation
-            if (!name || !price) {
-                errorElement.textContent = 'Name and price are required';
+            if (!name || !subject) {
+                errorElement.textContent = 'Name and subject are required';
                 return;
             }
 
-            if (isNaN(price) || parseFloat(price) <= 0) {
-                errorElement.textContent = 'Price must be a valid positive number';
-                return;
-            }
-
-            fetch('/products', {
+            fetch('/teachers', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
-                body: 'name=' + encodeURIComponent(name) + '&price=' + encodeURIComponent(price)
+                body: 'name=' + encodeURIComponent(name) + '&subject=' + encodeURIComponent(subject)
             })
             .then(response => {
                 if (!response.ok) {
@@ -348,29 +420,29 @@
                 }
                 return response.json();
             })
-            .then(product => {
-                location.reload(); // Refresh the page to show the new product
+            .then(teacher => {
+                location.reload(); // Refresh the page to show the new teacher
             })
             .catch(error => {
                 errorElement.textContent = error.message;
             });
         });
 
-        // Edit Product
-        function editProduct(id) {
-            // Get product details
-            fetch('/products/' + id)
+        // Edit Teacher
+        function editTeacher(id) {
+            // Get teacher details
+            fetch('/teachers/' + id)
                 .then(response => {
                     if (!response.ok) {
-                        throw new Error('Failed to fetch product');
+                        throw new Error('Failed to fetch teacher');
                     }
                     return response.json();
                 })
-                .then(product => {
+                .then(teacher => {
                     // Populate edit form
-                    document.getElementById('editId').value = product.id;
-                    document.getElementById('editName').value = product.name;
-                    document.getElementById('editPrice').value = product.price;
+                    document.getElementById('editId').value = teacher.id;
+                    document.getElementById('editName').value = teacher.name;
+                    document.getElementById('editSubject').value = teacher.subject;
 
                     // Show modal
                     const modal = document.getElementById('editModal');
@@ -381,31 +453,26 @@
                 });
         }
 
-        // Save Edited Product
-        document.getElementById('editProductForm').addEventListener('submit', function(e) {
+        // Save Edited Teacher
+        document.getElementById('editTeacherForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
             const id = document.getElementById('editId').value;
             const name = document.getElementById('editName').value.trim();
-            const price = document.getElementById('editPrice').value.trim();
+            const subject = document.getElementById('editSubject').value.trim();
 
             // Client-side validation for edit form
-            if (!name || !price) {
-                alert('Name and price are required');
+            if (!name || !subject) {
+                alert('Name and subject are required');
                 return;
             }
 
-            if (isNaN(price) || parseFloat(price) <= 0) {
-                alert('Price must be a valid positive number');
-                return;
-            }
-
-            fetch('/products/' + id, {
+            fetch('/teachers/' + id, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
-                body: 'name=' + encodeURIComponent(name) + '&price=' + encodeURIComponent(price)
+                body: 'name=' + encodeURIComponent(name) + '&subject=' + encodeURIComponent(subject)
             })
             .then(response => {
                 if (!response.ok) {
@@ -413,7 +480,7 @@
                 }
                 return response.json();
             })
-            .then(product => {
+            .then(teacher => {
                 location.reload(); // Refresh the page
             })
             .catch(error => {
@@ -421,10 +488,10 @@
             });
         });
 
-        // Delete Product
-        function deleteProduct(id) {
-            if (confirm('Are you sure you want to delete this product?')) {
-                fetch('/products/' + id, {
+        // Delete Teacher
+        function deleteTeacher(id) {
+            if (confirm('Are you sure you want to delete this teacher?')) {
+                fetch('/teachers/' + id, {
                     method: 'DELETE'
                 })
                 .then(response => {
@@ -447,4 +514,3 @@
     </script>
 </body>
 </html>
-

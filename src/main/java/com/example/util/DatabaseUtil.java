@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class DatabaseUtil {
     private static final String DB_HOST = System.getenv().getOrDefault("MYSQL_HOST", "localhost");
     private static final String DB_PORT = System.getenv().getOrDefault("MYSQL_PORT", "3306");
-    private static final String DB_NAME = System.getenv().getOrDefault("MYSQL_DATABASE", "productdb");
+    private static final String DB_NAME = System.getenv().getOrDefault("MYSQL_DATABASE", "teacherdb");
     private static final String DB_USER = System.getenv().getOrDefault("MYSQL_USER", "root");
     private static final String DB_PASSWORD = System.getenv().getOrDefault("MYSQL_PASSWORD", "root");
     
@@ -23,4 +23,3 @@ public class DatabaseUtil {
         }
     }
 }
-
