@@ -230,29 +230,6 @@
             color: #333;
         }
 
-        /* Responsive Design */
-        @media (min-width: 1400px) {
-            .main-container {
-                padding: 30px 60px;
-            }
-            
-            h1 {
-                font-size: 2.5rem;
-            }
-        }
-
-        @media (min-width: 1920px) {
-            .main-container {
-                padding: 40px 80px;
-            }
-        }
-
-        @media (max-width: 1024px) {
-            .main-container {
-                padding: 20px 30px;
-            }
-        }
-
         @media (max-width: 768px) {
             .main-container {
                 padding: 15px 20px;
@@ -269,46 +246,6 @@
 
             h1 {
                 font-size: 1.5rem;
-            }
-
-            table {
-                font-size: 14px;
-            }
-
-            th, td {
-                padding: 8px;
-            }
-
-            .action-btn {
-                padding: 6px 10px;
-                font-size: 12px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .main-container {
-                padding: 10px 15px;
-            }
-
-            header {
-                padding: 1rem;
-            }
-
-            .nav-links {
-                gap: 1rem;
-            }
-
-            .nav-links a {
-                padding: 0.5rem 0.75rem;
-                font-size: 14px;
-            }
-
-            table {
-                font-size: 12px;
-            }
-
-            th, td {
-                padding: 6px;
             }
         }
     </style>
@@ -514,3 +451,4 @@
     </script>
 </body>
 </html>
+

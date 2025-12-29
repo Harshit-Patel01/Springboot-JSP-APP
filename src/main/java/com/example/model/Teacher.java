@@ -1,24 +1,34 @@
 package com.example.model;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "teachers")
 public class Teacher {
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    
+    @Column(nullable = false)
     private String name;
+    
+    @Column(nullable = false)
     private String subject;
 
     public Teacher() {
     }
 
-    public Teacher(int id, String name, String subject) {
+    public Teacher(Integer id, String name, String subject) {
         this.id = id;
         this.name = name;
         this.subject = subject;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -38,4 +48,3 @@ public class Teacher {
         this.subject = subject;
     }
 }
-

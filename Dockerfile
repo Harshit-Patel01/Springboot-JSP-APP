@@ -11,16 +11,14 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 # Runtime stage
-FROM tomcat:9.0
-
-# Remove default Tomcat webapps
-RUN rm -rf /usr/local/tomcat/webapps/*
+FROM eclipse-temurin:17-jre
+WORKDIR /app
 
 # Copy WAR file from build stage
-COPY --from=build /app/target/teacher-crud.war /usr/local/tomcat/webapps/ROOT.war
+COPY --from=build /app/target/teacher-crud.war app.war
 
-# Expose Tomcat port
+# Expose Spring Boot port
 EXPOSE 8080
 
-# Start Tomcat
-CMD ["catalina.sh", "run"]
+# Start Spring Boot application
+ENTRYPOINT ["java", "-jar", "app.war"]

@@ -1,6 +1,14 @@
 # Teacher Management System
 
-A Java JSP-based web application for managing teachers with CRUD operations.
+A Spring Boot web application for managing teachers with CRUD operations using JSP views.
+
+## Features
+
+- Create, Read, Update, and Delete teachers
+- RESTful API endpoints
+- JSP-based user interface
+- MySQL database integration
+- Spring Data JPA for data access
 
 ## Setup Instructions
 
@@ -12,7 +20,7 @@ Create a MySQL database:
 CREATE DATABASE teacherdb;
 ```
 
-Update database credentials in `src/main/java/com/example/util/DatabaseUtil.java`
+Database configuration is managed through environment variables or `application.properties`.
 
 ### 2. Build the Project
 
@@ -20,15 +28,21 @@ Update database credentials in `src/main/java/com/example/util/DatabaseUtil.java
 mvn clean package
 ```
 
-### 3. Deploy to Tomcat
+### 3. Run the Application
 
-Copy the generated `target/teacher-crud.war` file to your Tomcat `webapps` directory.
-
-### 4. Run the Application
-
-Start Tomcat and navigate to:
+#### Using Maven:
+```bash
+mvn spring-boot:run
 ```
-http://localhost:8080/teachers
+
+#### Using the JAR file:
+```bash
+java -jar target/teacher-crud.jar
+```
+
+The application will be available at:
+```
+http://localhost:8080
 ```
 
 ## Docker Deployment
@@ -37,7 +51,7 @@ The project includes Docker support with MySQL database:
 
 ```bash
 # Build and start containers
-docker-compose up -d
+docker-compose up -d --build
 
 # View logs
 docker-compose logs -f
@@ -60,24 +74,48 @@ src/
 ├── main/
 │   ├── java/
 │   │   └── com/example/
-│   │       ├── dao/          # Data Access Objects
-│   │       ├── model/        # Entity models
-│   │       ├── servlet/      # Servlet controllers
-│   │       └── util/         # Utility classes
+│   │       ├── controller/     # Spring MVC controllers
+│   │       ├── model/         # JPA entity models
+│   │       ├── repository/    # Spring Data JPA repositories
+│   │       └── TeacherManagementApplication.java
+│   ├── resources/
+│   │   └── application.properties  # Spring Boot configuration
 │   └── webapp/
-│       ├── index.jsp         # Home page
-│       ├── teachers.jsp      # Teachers management page
 │       └── WEB-INF/
-│           └── web.xml       # Web configuration
+│           └── views/         # JSP view files
+│               ├── index.jsp
+│               └── teachers.jsp
 ```
 
 ## API Endpoints
 
-- `GET /teachers` - List all teachers
-- `GET /teachers/{id}` - Get teacher by ID
-- `POST /teachers` - Create new teacher
-- `PUT /teachers/{id}` - Update teacher
+- `GET /teachers` - List all teachers (renders JSP view)
+- `GET /teachers/{id}` - Get teacher by ID (returns JSON)
+- `POST /teachers` - Create new teacher (form-urlencoded)
+- `PUT /teachers/{id}` - Update teacher (form-urlencoded)
 - `DELETE /teachers/{id}` - Delete teacher
+
+## Configuration
+
+The application uses Spring Boot's configuration system. Database settings can be configured via:
+
+1. Environment variables:
+   - `MYSQL_HOST` (default: localhost)
+   - `MYSQL_PORT` (default: 3306)
+   - `MYSQL_DATABASE` (default: teacherdb)
+   - `MYSQL_USER` (default: root)
+   - `MYSQL_PASSWORD` (default: root)
+
+2. `application.properties` file in `src/main/resources/`
+
+## Technology Stack
+
+- Spring Boot 3.2.0
+- Spring Data JPA
+- Spring MVC
+- MySQL
+- JSP/JSTL
+- Maven
 
 ## License
 
